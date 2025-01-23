@@ -30,6 +30,9 @@
 #include "openthread/platform/radio.h"
 #include "openthread/thread.h"
 #include "openthread/thread_ftd.h"
+#ifdef ARDUINO_ARCH_ESP32
+#include "esp32-hal-log.h"
+#endif
 
 #define MAX_FILE_SIZE (200 * 1024) // 200 KB
 #define MAX_FILE_SIZE_STR "200KB"
