@@ -39,6 +39,7 @@
 #define SERVER_IPV4_LEN 16
 #define FILE_CHUNK_SIZE 1024
 #define WEB_TAG "obtr_web"
+#undef CONFIG_SPIRAM /* We have no PSRAM, if built for S3 will need to conditionally include this define */
 
 /*-----------------------------------------------------
  Note：Http Server
