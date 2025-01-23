@@ -1,0 +1,48 @@
+{
+    "name": "esp_ot_br_server",
+    "version": "1.0.0",
+    "description": "REST Api for OpenThread Border Router. This library has stripped out frontend support in upstream version.",
+    "license": "Apache-2.0",
+    "frameworks":[
+        "espidf",
+        "arduino"
+    ],
+    "platforms": [
+      "espressif32"
+    ],
+    "repository":{
+        "type": "git",
+        "url": "https://github.com/smlight-ent/esp-thread-br.git",
+        "branch": "main"
+    },
+    "authors":[
+        {
+           "name": "Tim Lunn",
+           "email": "tl@smlight.tech",
+           "maintainer": true
+        },
+        {
+            "name": "Espressif Systems",
+            "url": "https://github.com/espressif/esp-thread-br"
+        }
+    ],
+    "headers":[
+        "esp_br_web.h"
+    ],
+    "export": {
+        "include": [
+            "include",
+            "private_include",
+            "src",
+            "library.json"
+        ]
+    },
+    "build":{
+        "includeDir": "include",
+        "srcDir": "src",
+        "flags": [
+            "-Wno-unused-result",
+            "-Iprivate_include"
+        ]
+    }
+}
