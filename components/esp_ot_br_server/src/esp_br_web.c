@@ -296,7 +296,7 @@ static cJSON *pack_response(cJSON *error, cJSON *result, cJSON *message)
     return root;
 }
 
-static cJSON *resource_status(char *error, char *msg)
+static cJSON *resource_status(const char *error, const char *msg)
 {
     cJSON *root = cJSON_CreateObject();
     cJSON_AddItemToObject(root, "ErrorCode", cJSON_CreateString(error));
