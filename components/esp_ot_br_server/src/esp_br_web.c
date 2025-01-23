@@ -62,7 +62,7 @@ typedef struct http_server {
     uint16_t port;            /* port */
 } http_server_t;
 
-static http_server_t s_server = {NULL, {"", ""}, "", 80}; /* the instance of server */
+static http_server_t s_server = {NULL, {"", ""}, "", 8080}; /* the instance of server */
 
 /**
  * @brief The basic parameter definition for parsing url
@@ -1149,6 +1149,7 @@ static httpd_handle_t *start_esp_br_http_server(const char *base_path, const cha
     config.max_resp_headers = (sizeof(s_resource_handlers) + sizeof(s_web_gui_handlers)) / sizeof(httpd_uri_t) + 2;
     config.uri_match_fn = httpd_uri_match_wildcard;
     config.stack_size = 8 * 1024;
+    config.server_port = 8080;
     s_server.port = config.server_port;
 
     // start http_server
@@ -1165,7 +1166,7 @@ static httpd_handle_t *start_esp_br_http_server(const char *base_path, const cha
 
     // Show the login address in the console
     ESP_LOGI(WEB_TAG, "%s\r\n", "<=======================server start========================>");
-    ESP_LOGI(WEB_TAG, "http://%s:%d/index.html\r\n", s_server.ip, s_server.port);
+    ESP_LOGI(WEB_TAG, "http://%s:%d\r\n", s_server.ip, s_server.port);
     ESP_LOGI(WEB_TAG, "%s\r\n", "<===========================================================>");
 
     return s_server.handle;
