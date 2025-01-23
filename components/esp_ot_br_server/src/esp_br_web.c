@@ -19,7 +19,6 @@
 #include "esp_spiffs.h"
 #include "esp_vfs.h"
 #include "http_parser.h"
-#include "protocol_examples_common.h"
 #include "sdkconfig.h"
 #include <limits.h>
 #include <stdint.h>
@@ -1089,16 +1088,6 @@ static esp_err_t default_urls_get_handler(httpd_req_t *req)
     }
     if (strcmp(info.file_name, "/") == 0) {
         return blank_html_get_handler(req);
-    } else if (strcmp(info.file_name, "/index.html") == 0) {
-        return index_html_get_handler(req, info.file_path);
-    } else if (strcmp(info.file_name, "/static/style.css") == 0) {
-        return style_css_get_handler(req, info.file_path);
-    } else if (strcmp(info.file_name, "/static/restful.js") == 0) {
-        return script_js_get_handler(req, info.file_path);
-    } else if (strcmp(info.file_name, "/static/bootstrap.min.css") == 0) {
-        return script_js_get_handler(req, info.file_path);
-    } else if (strcmp(info.file_name, "/favicon.ico") == 0) {
-        return favicon_get_handler(req);
     } else {
         ESP_LOGE(WEB_TAG, "Failed to stat file : %s", info.file_path); /* Respond with 404 Not Found */
         return NOT_FOUND_handler(req);
@@ -1145,8 +1134,8 @@ static httpd_handle_t *start_esp_br_http_server(const char *base_path, const cha
     strlcpy(s_server.data.base_path, base_path, ESP_VFS_PATH_MAX + 1);
 
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
-    config.max_uri_handlers = (sizeof(s_resource_handlers) + sizeof(s_web_gui_handlers)) / sizeof(httpd_uri_t) + 2;
-    config.max_resp_headers = (sizeof(s_resource_handlers) + sizeof(s_web_gui_handlers)) / sizeof(httpd_uri_t) + 2;
+    config.max_uri_handlers = (sizeof(s_resource_handlers) ) / sizeof(httpd_uri_t) + 2;
+    config.max_resp_headers = (sizeof(s_resource_handlers) ) / sizeof(httpd_uri_t) + 2;
     config.uri_match_fn = httpd_uri_match_wildcard;
     config.stack_size = 8 * 1024;
     config.server_port = 8080;
@@ -1161,7 +1150,6 @@ static httpd_handle_t *start_esp_br_http_server(const char *base_path, const cha
                                     .user_ctx = &s_server.data};
 
     httpd_server_register_http_uri(&s_server, s_resource_handlers, sizeof(s_resource_handlers) / sizeof(httpd_uri_t));
-    httpd_server_register_http_uri(&s_server, s_web_gui_handlers, sizeof(s_web_gui_handlers) / sizeof(httpd_uri_t));
     httpd_register_uri_handler(s_server.handle, &default_uris_get);
 
     // Show the login address in the console
@@ -1221,6 +1209,6 @@ static void handler_got_ip_event(void *arg, esp_event_base_t event_base, int32_t
 
 void esp_br_web_start(char *base_path)
 {
-    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &handler_got_ip_event, base_path));
+    // ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &handler_got_ip_event, base_path));
     ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_ETH_GOT_IP, &handler_got_ip_event, base_path));
 }
